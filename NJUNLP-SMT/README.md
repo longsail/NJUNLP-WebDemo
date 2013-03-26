@@ -1,3 +1,3 @@
 NJU-NLP-WebParsing
 ==================
-we will try *tornado* as Web framework, *pygraphviz* draw node pic and *bootstrap* as Front framework.
+we will use  *tornado* as Web framework, *bootstrap* as Front framework.
