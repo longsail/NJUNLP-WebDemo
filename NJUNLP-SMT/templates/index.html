@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>南京大学自然语言处理平台</title>	
+		<!-- Bootstrap -->
+		<link rel="stylesheet" type="text/css"  href="{{ static_url("bootstrap/css/bootstrap.css") }}" >
+		<script src="http://code.jquery.com/jquery.js"></script>
+		<script type="text/javascript" src="{{ static_url("bootstrap/js/bootstrap.js") }}"></script>
+		<script>
+			$(".dropdown-toggle").dropdown()
+		</script>
+	</head>>
+
+	<body bgcolor="#FFCCFF">
+	<div class="hero-unit">
+		<h1 class="text-center">欢迎使用</h1>
+		<p class="text-error">
+		南京大学自然语言处理平台,正在建设中...
+		</p>
+		<!-- Button to trigger modal -->
+		<a href="#myModal" role="button" class="btn btn-info" data-toggle="modal">了解更多</a>
+
+		<!-- Modal -->
+		<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
+				<h3 id="myModalLabel">南京大学自然语言处理平台</h3>
+			</div>
+			<div class="modal-body">
+				<p class="text-error">南京大学自然语言平台包括机器翻译，语法分析，分词等功能</p>
+			</div>
+
+			<div class="modal-footer">
+				
+				<button class="btn btn-primary">确定</button>
+				<button class="btn btn-success" data-dismiss="modal" aria-hidden="true">关闭</button>
+			</div>
+		</div>
+	</div>
+	</body>
+
+	<center><textarea class="field span6" id="textarea"  rows="5" placeholder="输入文本" ></textarea>
+		<select id="select1" class="input-small" >
+			<option value="SEG">Seg</option>
+			<option value="POS">Pos</option>
+			<option value="PARSE">Parse</option>
+		</select>
+
+		<textarea class="field span6" id="textarea" rows="5"></textarea>
+	</center>
+	<center>
+		<button type="button" class="btn btn-success" data-loading-text="fenxizhong">分析</button>
+
+	<body>
+		<header class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<nav>
+						<ul class="nav pull-right">						
+							<li class="active"><a href="http://nlp.nju.edu.cn/~xin/Software/Translation/">机器翻译系统</a></li>
+							<li class="active"><a href="#">帮助</a></li>
+							<li class="active"><a href="#">关于</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</header>
+	</body>
+
+		<center> 南京大学计算机系自然语言处理组 2012-2013 </center>
+
+</html>
+
