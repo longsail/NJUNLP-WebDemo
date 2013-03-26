@@ -1,3 +1,3 @@
-NJU-NLP-WebParsing
+NJUNLP-SMT
 ==================
-we will use  *tornado* as Web framework, *bootstrap* as Front framework.
+we will use  *tornado* as web-server, *bootstrap* as front-framework.
