@@ -1,0 +1,148 @@
+% !TEX TS-program = XeLaTeX
+% !TEX encoding = UTF-8 Unicode
+
+\chapter{怎样解析WSDL}
+\label{chap01}
+
+下面首先将介绍WSDL及Web Service的概念。然后阐述怎样生成可以使用的WSDL，主要以c\#语言和java语言(\textcolor{red}{TODO})为例介绍。最后以python语言为例，介绍怎样解析生成的WSDL及调用其中的服务。
+
+\section{Wsdl及Web serviceL简介}
+
+在了解WSDL之前，需要首先了解Web Service，Web Service是一种服务导向架构的技术，通过标准的Web协议提供服务，目的是保证不同平台的应用服务可以互操作。
+
+\subsection{Web service介绍}
+通俗的说，我们把计算机后台程序提供的功能，称为服务。根据来源的不同，服务可以分为两种，一种是"本地服务"(使用同一台机器提供的服务，不需要网络),另一种是"网络服务"(使用另一台计算机提供的服务，必须通过网络才能完成)。
+
+wikipedia上关于Web Service的描述如下
+
+\url{http://eh.wikipedia.org/wiki/Web_service}
+
+\begin{enumerate}
+
+\item 本地服务的缺点
+
+a) 可移植性差
+
+如果你想把本机的服务，移植到其他机器上，往往很困难，尤其是在跨平台的情况下。
+
+\item Web Service的优势
+
+a) 平台无关
+
+不管使用什么系统，都可以使用Web Service。
+
+b) 编程语言无关
+
+使用规范的格式调用，就可以使用任意编程语言。
+\end{enumerate}
+
+\subsection{WSDL简介}
+
+WSDL(Web Services Description Language)指网络服务描述语言。WSDL是使用XML编写的文档，可描述某个Web service，用来规定服务的位置及提供的操作。
+
+wikipedia上关于WSDL的描述如下
+
+\url{http://en.wikipedia.org/wiki/Web_Services_Description_Language}
+
+WSDL文档利用下面的元素来描述某个Web service的
+
+%%插入三线表示例%%
+\begin{table}[h]
+	\centering
+	\begin{tabular}{ccccc}
+		\toprule
+		 元素& 定义\tabularnewline
+		\midrule
+		<portType> & web service 执行的操作\tabularnewline
+		<message> & web service 使用的消息\tabularnewline
+		<types> & web service 使用的数据类型\tabularnewline
+          <binding> & web service 使用的通信协议\tabularnewline
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\section{基本步骤}
+
+\subsection{C\#语言怎样生成可被调用的WSDL}
+
+\begin{enumerate}
+
+\item 如何：在托管Windwos服务中承载WCF服务
+
+参考 \url{http://msdn.microsoft.com/zh-cn/library/ms733069.aspx}
+
+\item 生成WSDL时需要注意的问题
+
+\textcolor{red}{不要直接粘贴配置文件，防止生成不合法字符}
+
+\textcolor{red}{配置文件中的locolhost改为提供服务的服务器IP地址}
+
+\textcolor{red}{修改配置文件中的wsHttpBinding为basicHttpBinding}
+
+\item 修改后的配置文件
+
+\begin{figure}[htpd]
+  \centering
+  \includegraphics[scale=0.6]{appconfig.jpg}
+  \caption{修改后的配置文件}
+\end{figure}
+\end{enumerate}
+
+\subsection{java语言怎样生成可被调用的WSDL}
+
+\textcolor{red}{TODO}
+
+\subsection{使用python语言解析生成的WSDL}
+
+首先查看需要调用的WSDL文件，这里以提供统计机器翻译的WSDL为例.
+
+地址如下
+
+\url{http://114.212.189.224:9000/NJUPhraZTranslationService?wsdl}
+
+\begin{enumerate}
+	
+\item SMT WSDL文件
+
+\begin{figure}[htpd]
+  \centering
+  \includegraphics[scale=0.6]{SMTwsdl.jpg}
+  \caption{SMT WSDL 文件}
+\end{figure}
+
+\item 使用SUDS解析WSDL
+
+suds的使用说明如下
+
+\url{https://fedorahosted.org/suds/wiki/Documentation}
+
+解析程序如下：
+
+\begin{lstlisting}[language=python]
+from suds.client import Client
+# The url below links to NJUNLP SMT wsdl and
+# This wsdl provides Translate operation
+SMTUrl="http://114.212.189.224:9000/NJUPhraZTranslationService?wsdl" 
+SMTClient=Client(SMTurl)
+
+# The url below links to NJUNLP WordSegment wsdl and 
+# This wsdl provides RunICTCLASSegment operation
+WordSegUrl="http://114.212.189.224:9444/WCFICTCLASService?wsdl"
+WordSegClient=Client(WordSegUrl)
+    
+testString=unicode("南京大学","utf-8")
+
+WordSegClient.Client(testString)
+print SMTClient.service.Translate(testString)
+\end{lstlisting}
+\item 需要注意的问题
+
+在使用SMT提供的服务时候，解析服务的文件时需要将文件的编码设置为utf-8.如果设置编码后，还出现服务不能使用的情况，可以进行牵制转换，这里以python语言为例：
+
+\begin{lstlisting}[language=c]
+#以南京大学为例
+unicode("南京大学","utf-8")
+\end{lstlisting}
+\end{enumerate}
+
+
