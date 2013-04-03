@@ -39,35 +39,16 @@
 	</div>
 	</body>
 
-	<center><textarea class="field span6" id="textarea"  rows="5" placeholder="输入文本" ></textarea>
-		<select id="select1" class="input-small" >
-			<option value="SEG">Seg</option>
-			<option value="POS">Pos</option>
-			<option value="PARSE">Parse</option>
-		</select>
-
-		<textarea class="field span6" id="textarea" rows="5"></textarea>
-	</center>
 	<center>
-		<button type="button" class="btn btn-success" data-loading-text="fenxizhong">分析</button>
+		<form method="get" action="/">
+			<textarea class="filed span6" id="textarea" name="test" placeholder="type something..."></textarea>
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</form>
+		<textarea class="filed span6" id="textarea">
+			{{ test_transtring }}
+		</textarea>
 
-	<body>
-		<header class="navbar navbar-inverse navbar-fixed-top">
-			<div class="navbar-inner">
-				<div class="container">
-					<nav>
-						<ul class="nav pull-right">						
-							<li class="active"><a href="http://nlp.nju.edu.cn/~xin/Software/Translation/">机器翻译系统</a></li>
-							<li class="active"><a href="#">帮助</a></li>
-							<li class="active"><a href="#">关于</a></li>
-						</ul>
-					</nav>
-				</div>
-			</div>
-		</header>
-	</body>
-
-		<center> 南京大学计算机系自然语言处理组 2012-2013 </center>
+	<center>
 
 </html>
 
