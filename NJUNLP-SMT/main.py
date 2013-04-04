@@ -1,5 +1,6 @@
 #coding: utf-8
 import os.path 
+import re
 
 import tornado.web 
 import tornado.httpserver
@@ -23,11 +24,17 @@ class IndexHandler(tornado.web.RequestHandler):
 		ChiString = WordSegClient.service.RunICTCLASSegment(text)
 		EngTranString = SMTClient.service.Translate(ChiString)
 		return EngTranString
+	def SMTRegex(self,text):
+		regex = r'[\r]?\n'
+		reobj = re.compile(regex)
+		text = reobj.sub('',text)
+		return text
 
 	def get(self):
-		test_string = self.get_argument('test',"nanjing")
-		test_transtring = self.ChiToEngTranslate(test_string)
-		self.render('index.html',test_transtring=test_transtring)
+		InputText = self.get_argument('InputText',"nanjing")
+		InputText = self.SMTRegex(InputText)
+		TransOutput = self.ChiToEngTranslate(InputText)
+		self.render('index.html',TransOutput = TransOutput)
 
 if __name__ == "__main__":
 	tornado.options.parse_command_line()
