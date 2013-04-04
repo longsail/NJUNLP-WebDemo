@@ -40,15 +40,23 @@
 	</body>
 
 	<center>
-		<form method="get" action="/">
-			<textarea class="filed span6" id="textarea" name="test" placeholder="type something..."></textarea>
-			<button type="submit" class="btn btn-primary">Submit</button>
+		<form class="form-horizontal" method="get" action="/">
+			<div class="control-group">
+				<div class="controls">
+					<textarea class="filed span7" id="textarea" name="InputText" placeholder="type something..."></textarea>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<textarea class="filed span7" id="textarea">{{ TransOutput }}</textarea>
+				</div>
+			</div>
+
+			<div class="controls">
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</div>
 		</form>
-		<textarea class="filed span6" id="textarea">
-			{{ test_transtring }}
-		</textarea>
 
-	<center>
-
+	</center>
 </html>
 
