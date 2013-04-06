@@ -11,7 +11,6 @@
 		</script>
 	</head>>
 
-	<body bgcolor="#FFCCFF">
 	<div class="hero-unit">
 		<h1 class="text-center">欢迎使用</h1>
 		<p class="text-error">
@@ -37,26 +36,27 @@
 			</div>
 		</div>
 	</div>
+
+	<body>
+		<center>
+			<form class="form-horizontal" method="get" action="/">
+				<div class="control-group">
+					<div class="controls">
+						<textarea class="filed span7" rows="6" id="textarea" name="inputText" placeholder="type something..."></textarea>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="controls">
+						<textarea class="filed span7" rows="6" id="textarea">{{ output }}</textarea>
+					</div>
+				</div>
+
+				<div class="controls">
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
+			</form>
+		</center>
 	</body>
 
-	<center>
-		<form class="form-horizontal" method="get" action="/">
-			<div class="control-group">
-				<div class="controls">
-					<textarea class="filed span7" id="textarea" name="inputText" placeholder="type something..."></textarea>
-				</div>
-			</div>
-			<div class="control-group">
-				<div class="controls">
-					<textarea class="filed span7" id="textarea">{{ output }}</textarea>
-				</div>
-			</div>
-
-			<div class="controls">
-				<button type="submit" class="btn btn-primary">Submit</button>
-			</div>
-		</form>
-
-	</center>
 </html>
 
