@@ -1,16 +1,16 @@
 #coding: utf-8
 import os.path 
 import re
+from suds.client import Client
+import pymongo
+#from time import time
 
 import tornado.web 
 import tornado.httpserver
 import tornado.ioloop 
 import tornado.options
 
-from  suds.client import Client
-
 from tornado.options import define,options
-
 define("port",default=8000,help="run on the given port",type=int)
 
 class baseHandler(tornado.web.RequestHandler):
@@ -34,31 +34,43 @@ class baseHandler(tornado.web.RequestHandler):
 		text = self.CHISegWebService(text)
 		return SMTClient.service.Translate(text)
 
-class SmtHandler(baseHandler):
-
+class IndexHandler(baseHandler):
+	
 	def get(self):
-		inputText = self.get_argument('inputText','nanjing')
-		transOutput = self.SMTWebService(inputText)
-		self.render('index.html',output = transOutput)
 
-class ChiSegHandler(baseHandler):
-
-	def get(self):
 		inputText = self.get_argument('inputText','nanjing')
-		chinSegOutput = self.CHISegWebService(inputText)
-		self.render('index.html',output = chinSegOutput)
+		project = self.get_argument('project','SMT')
+                
+
+		if project == "SMT":
+			output = self.SMTWebService(inputText)
+		elif project == "SEG":
+			output = self.CHISegWebService(inputText)
+		else:
+			output = 'hello longsail'
+
+
+		self.render('index.html',output = output)
+
+class Application(tornado.web.Application):
+	def __init__(self):
+		handlers = [(r'/',IndexHandler)]
+		settings = dict(
+			template_path = os.path.join(os.path.dirname(__file__),"templates"),
+			static_path = os.path.join(os.path.dirname(__file__),"static"),
+			debug = True,
+			)
+		conn = pymongo.Connection("localhost",27017)
+		self.db = conn["test"]
+		tornado.web.Application.__init__(self,handlers,**settings)
+
+
+def main():
+	tornado.options.parse_command_line()
+	http_server = tornado.httpserver.HTTPServer(Application())
+	http_server.listen(options.port)
+	tornado.ioloop.IOLoop.instance().start()
 
 
 if __name__ == "__main__":
-	tornado.options.parse_command_line()
-	app=tornado.web.Application(
-			handlers=[(r'/',SmtHandler)
-				#(r'/',ChiSegHandler)
-			],
-			template_path=os.path.join(os.path.dirname(__file__),"templates"),
-			static_path=os.path.join(os.path.dirname(__file__),"static"),
-			debug=True
-			)
-	http_server=tornado.httpserver.HTTPServer(app)
-	http_server.listen(options.port)
-	tornado.ioloop.IOLoop.instance().start()
+	main()
