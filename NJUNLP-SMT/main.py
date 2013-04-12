@@ -14,6 +14,7 @@ from tornado.options import define,options
 define("port",default=8000,help="run on the given port",type=int)
 
 class baseHandler(tornado.web.RequestHandler):
+
 	def Regex(self,text):
 		regex = r'[\r]?\n'
 		reobj = re.compile(regex)
@@ -34,22 +35,50 @@ class baseHandler(tornado.web.RequestHandler):
 		text = self.CHISegWebService(text)
 		return SMTClient.service.Translate(text)
 
-class IndexHandler(baseHandler):
-	
-	def get(self):
+	def saveResult(self,text,output,ip):
+		result = dict()
 
-		inputText = self.get_argument('inputText','nanjing')
-		project = self.get_argument('project','SMT')
-                
+		result["source"] = text
+		result["target"] = output
+		result["ip"] = ip
+
+		return result
+
+	def SelService(self,text,project,ip):
+		collsmt = self.application.db.testsmt
+		collseg = self.application.db.testseg
 
 		if project == "SMT":
-			output = self.SMTWebService(inputText)
-		elif project == "SEG":
-			output = self.CHISegWebService(inputText)
+			result =  collsmt.find_one({"source":text})
+			if result:
+				return result["target"]
+			else:
+				output = self.SMTWebService(text)
+				SMTResult = self.saveResult(text,output,ip)
+				collsmt.insert(SMTResult)
+
+				return output
+			
+		elif project == "SEG": 
+			result = collseg.find_one({"source":text})
+			if result:
+				return result["target"]
+			else:
+				output = self.CHISegWebService(text)
+				SEGResult = self.saveResult(text,output,ip)
+				collseg.insert(SEGResult)
+
+				return output
 		else:
-			output = 'hello longsail'
+			return "longsail Love Nju"
 
-
+class IndexHandler(baseHandler):
+	def get(self):
+		inputText = self.get_argument('inputText','nanjing')
+		project = self.get_argument('project','SMT')
+		ip = self.request.remote_ip
+                
+		output = self.SelService(inputText,project,ip)
 		self.render('index.html',output = output)
 
 class Application(tornado.web.Application):
@@ -67,7 +96,7 @@ class Application(tornado.web.Application):
 
 def main():
 	tornado.options.parse_command_line()
-	http_server = tornado.httpserver.HTTPServer(Application())
+	http_server = tornado.httpserver.HTTPServer(Application(),xheaders=True)
 	http_server.listen(options.port)
 	tornado.ioloop.IOLoop.instance().start()
 
