@@ -1,3 +1,8 @@
-NJUNLP-SMT
+NJUNLP-StaticDemo
 ==================
-we will use  *tornado* as web-server, *bootstrap* as front-framework.
+we will use  *tornado* as web-framework, *bootstrap* as front-framework.
+
+##NJUNLP-CHItoENGSMT##
+
+##NJUNLP-CHISeg##
+
