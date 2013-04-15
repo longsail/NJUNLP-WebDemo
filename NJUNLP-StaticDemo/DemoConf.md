@@ -3,7 +3,7 @@
 
 ###参考###
 
-1. [Tornado+Supervisor在生产环境下部署方法](https://idndx.com/2011/10/18/ways-to-deploy-tornado-under-production-environment-using-Supervisor/)
+1. [Tornado+Supervisor在生产环境下部署方法](https://idndx.com/2011/10/18/ways-to-deploy-tornado-under-production-environment-using-supervisor/)
 2. [Supervisord-example.conf](https://gist.github.com/didip/802561)
 
 ###问题小记###
